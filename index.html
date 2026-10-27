@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="th"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TCAS70 Tracker</title>
+<style>
+:root{--bg:#f6f4f4;--cd:#fff;--tx:#231a1c;--mu:#6b5d60;--ac:#8a1c2e;--bd:#e5dcdd;--ok:#16794a;--wn:#a86400;--bad:#b3261e;--gy:#7a7275;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#141010;--cd:#211819;--tx:#f2eaea;--mu:#b3a4a7;--ac:#e47b8e;--bd:#392b2d;--ok:#5fcf93;--wn:#f0b45a;--bad:#ff8a80;--gy:#9c9194;color-scheme:dark}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.55 "Noto Sans Thai",Sarabun,system-ui,sans-serif;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+main{max-width:820px;margin:0 auto;padding:16px}h1{font-size:1.3rem;margin:.1em 0}h2{font-size:1rem;margin:1.3em 0 .5em}
+.mu{color:var(--mu);font-size:.82rem}a{color:var(--ac)}
+.hero{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:12px}
+.hc{background:var(--cd);border:1px solid var(--bd);border-left:5px solid var(--ac);border-radius:12px;padding:10px 12px}
+.hc b{display:block;font-size:1.5rem;line-height:1.2}.hc.soon{border-left-color:var(--bad)}.hc.soon b{color:var(--bad)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 4px}
+.chips button{padding:7px 14px;border-radius:99px;border:1px solid var(--bd);background:var(--cd);color:var(--tx);font:inherit;cursor:pointer}
+.chips button.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.card{background:var(--cd);border:1px solid var(--bd);border-radius:14px;padding:13px 14px;margin:10px 0}
+.card.closed{opacity:.62}.top{display:flex;gap:10px;justify-content:space-between;align-items:flex-start}
+.u{font-size:.78rem;color:var(--ac);font-weight:600}.t{font-weight:700}.pj{color:var(--mu);font-size:.88rem}
+.dl{text-align:right;white-space:nowrap}.dl b{display:block}.soon-t{color:var(--bad)}
+.badge{display:inline-block;font-size:.74rem;border-radius:99px;padding:2px 10px;border:1px solid var(--bd);margin:6px 6px 0 0}
+.ok{color:var(--ok);border-color:var(--ok)}.wn{color:var(--wn);border-color:var(--wn)}.gy{color:var(--gy)}.bad{color:var(--bad);border-color:var(--bad)}
+details{margin-top:8px}summary{cursor:pointer;color:var(--ac);font-size:.88rem}
+ul{margin:.3em 0 .3em 1.1em;padding:0}li{margin:.15em 0}
+.cmp{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:6px;margin:6px 0}.cmp div{border:1px solid var(--bd);border-radius:8px;padding:5px 8px;font-size:.82rem}
+.row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}select,textarea{font:inherit;color:var(--tx);background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:6px 8px}
+textarea{flex:1;min-width:180px;min-height:38px}
+.tl div{display:flex;gap:12px;padding:7px 0;border-bottom:1px solid var(--bd)}.tl .d{min-width:105px;font-weight:600}
+.note{background:var(--cd);border:1px dashed var(--bd);border-radius:10px;padding:8px 12px;font-size:.82rem;color:var(--mu)}
+</style></head><body><main>
+<h1>TCAS70 Tracker · กฤตภาส</h1>
+<div class="mu" id="meta">กำลังโหลด…</div>
+<div class="hero" id="hero"></div>
+<div class="chips" id="chips"></div>
+<div id="list"></div>
+<h2>ไทม์ไลน์</h2><div class="card tl" id="tl"></div>
+<div class="note">แสดงเฉพาะข้อมูลที่อ้างอิงประกาศทางการของมหาวิทยาลัย/ทปอ. ✓ = ตรวจกับประกาศแล้ว · “รอตรวจ” = ยังไม่ได้อ่านจากประกาศต้นฉบับ ก่อนสมัครให้เปิดลิงก์ประกาศเสมอ · สถานะ 🟢🟡⚪ คือผลที่ระบบดึงหน้าประกาศมาเทียบวันที่อัตโนมัติ (แคช 1 ชม.)</div>
+</main>
+<script>
+var D,LIVE={},F="open",TH=["ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."],ST=["ยังไม่เริ่ม","กำลังทำพอร์ต","สมัครแล้ว","รอผล","ไม่ยื่น"];
+var today=new Date();today.setHours(0,0,0,0);
+var S={};try{S=JSON.parse(localStorage.getItem("tc70")||"{}")}catch(e){}
+function sv(){try{localStorage.setItem("tc70",JSON.stringify(S))}catch(e){}}
+function dt(s){return new Date(s+"T00:00:00")}
+function fd(s){var d=dt(s);return d.getDate()+" "+TH[d.getMonth()]+" "+(d.getFullYear()+543)}
+function dl(s){return Math.round((dt(s)-today)/864e5)}
+function esc(t){return String(t).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c]})}
+function kind(p){if(!p.close)return"unk";return dl(p.close)<0?"closed":"open"}
+function live(p){var r=p.src&&LIVE[p.src];if(!p.src)return'<span class="badge gy">⚪ ไม่มีแหล่งให้ตรวจอัตโนมัติ</span>';
+ if(!r)return'<span class="badge gy">⚪ ยังไม่ได้ตรวจสด</span>';
+ var m={ok:["ok","🟢 ตรงกับประกาศล่าสุด"],changed:["wn","🟡 ประกาศเปลี่ยน ตรวจอีกครั้ง"],read:["gy","⚪ อ่านได้ ไม่มีวันให้เทียบ"],js:["gy","⚪ อ่านอัตโนมัติไม่ได้ (เปิดลิงก์)"],pdf:["gy","⚪ ไฟล์ PDF (เปิดลิงก์)"],error:["gy","⚪ เข้าเว็บไม่ได้ชั่วคราว"]}[r.status]||["gy","⚪"];
+ return'<span class="badge '+m[0]+'">'+m[1]+(r.status==="changed"&&r.missing?": ไม่พบ "+esc(r.missing.join(", ")):"")+'</span>'}
+function cmp(p){if(!p.crit)return"";var s=D.student,c=p.crit,a=[["GPAX",s.gpax,c.gpax],["เกรดคณิต",s.math,c.math],["เกรดวิทย์",s.sci,c.sci],["หน่วยกิตคณิต",s.mathCr,c.mathCr],["หน่วยกิตวิทย์",s.sciCr,c.sciCr]];
+ return'<div class="cmp">'+a.map(function(x){return'<div>'+(x[1]>=x[2]?"✅":"❌")+" "+x[0]+"<br><b>"+x[1]+"</b> / ขั้นต่ำ "+x[2]+"</div>"}).join("")+'</div><div class="mu">'+esc(p.critNote||"")+'</div>'}
+function card(p){var k=kind(p),d=p.close?dl(p.close):null,st=S[p.id]||{};
+ var dh=k==="unk"?'<b class="mu">ไม่พบวันปิด</b>':k==="closed"?'<b class="mu">ปิดแล้ว</b><span class="mu">'+fd(p.close)+'</span>':'<b class="'+(d<=14?"soon-t":"")+'">'+(d===0?"วันนี้!":"อีก "+d+" วัน")+'</b><span class="mu">ปิด '+fd(p.close)+'</span>';
+ var h='<div class="card '+(k==="closed"?"closed":"")+'"><div class="top"><div><div class="u">'+esc(p.uni)+'</div><div class="t">'+esc(p.major)+'</div><div class="pj">'+esc(p.project)+'</div></div><div class="dl">'+dh+'</div></div>';
+ h+='<div class="mu" style="margin-top:6px">'+esc(p.closeNote||"")+'</div>';
+ h+=(p.verified?'<span class="badge ok">✓ วันที่ตรวจกับประกาศแล้ว</span>':'<span class="badge wn">รอตรวจกับประกาศ</span>')+live(p);
+ h+='<details><summary>เกณฑ์ / เอกสาร / ลิงก์ประกาศ</summary>'+cmp(p);
+ if(p.selection)h+='<p><b>การคัดเลือก:</b> '+esc(p.selection)+'<br><span class="mu">'+esc(p.selNote||"")+'</span></p>';
+ if(p.docs)h+='<b>เอกสารที่ต้องใช้</b><ul>'+p.docs.map(function(x){return"<li>"+esc(x)+"</li>"}).join("")+'</ul>';
+ if(p.links&&p.links.length)h+='<p>'+p.links.map(function(l){return'<a href="'+l.u+'" target="_blank" rel="noopener">'+esc(l.t)+' ↗</a>'}).join(" · ")+'</p>';
+ h+='</details><div class="row"><select data-s="'+p.id+'">'+ST.map(function(x){return"<option"+((st.s||ST[0])===x?" selected":"")+">"+x+"</option>"}).join("")+'</select><textarea data-n="'+p.id+'" placeholder="โน้ต">'+esc(st.n||"")+'</textarea></div></div>';return h}
+function R(){var P=D.programs,c={open:0,closed:0,unk:0};P.forEach(function(p){c[kind(p)]++});
+ var up=P.filter(function(p){return kind(p)==="open"}).sort(function(a,b){return a.close<b.close?-1:1}).slice(0,3);
+ document.getElementById("hero").innerHTML=up.length?up.map(function(p){var d=dl(p.close);return'<div class="hc '+(d<=14?"soon":"")+'"><span class="mu">'+esc(p.uni)+" · "+esc(p.major.split(" ")[0])+'</span><b>'+(d===0?"วันนี้":d+" วัน")+'</b><span class="mu">ปิด '+fd(p.close)+" · "+esc(p.project)+'</span></div>'}).join(""):'<div class="hc"><b>—</b>ไม่มีโครงการที่เปิดอยู่</div>';
+ var tabs=[["open","เปิดรับ ("+c.open+")"],["unk","รอข้อมูล ("+c.unk+")"],["closed","ปิดแล้ว ("+c.closed+")"],["all","ทั้งหมด"]];
+ document.getElementById("chips").innerHTML=tabs.map(function(t){return'<button data-f="'+t[0]+'" class="'+(F===t[0]?"on":"")+'">'+t[1]+'</button>'}).join("");
+ var L=P.filter(function(p){return F==="all"||kind(p)===F}).sort(function(a,b){return(a.close||"9")<(b.close||"9")?-1:1});
+ document.getElementById("list").innerHTML=L.map(card).join("")||'<div class="card mu">ไม่มีรายการ</div>';
+ var ev=P.filter(function(p){return p.close}).map(function(p){return{d:p.close,t:"ปิดรับ: "+p.uni+" "+p.major.split(" ")[0]+" – "+p.project}}).concat(D.events).sort(function(a,b){return a.d<b.d?-1:1});
+ document.getElementById("tl").innerHTML=ev.map(function(e){var n=dl(e.d);return'<div style="'+(n<0?"opacity:.5":"")+'"><span class="d">'+fd(e.d)+'</span><span>'+esc(e.t)+'</span></div>'}).join("")}
+document.addEventListener("click",function(e){var f=e.target.dataset&&e.target.dataset.f;if(f){F=f;R()}});
+document.addEventListener("change",function(e){var t=e.target;if(t.dataset.s){(S[t.dataset.s]=S[t.dataset.s]||{}).s=t.value;sv()}if(t.dataset.n){(S[t.dataset.n]=S[t.dataset.n]||{}).n=t.value;sv()}});
+fetch("data/programs.json").then(function(r){return r.json()}).then(function(j){D=j;
+ document.getElementById("meta").textContent="ข้อมูลบันทึกล่าสุด "+fd(j.updated)+" · กำลังเทียบกับประกาศทางการ…";R();
+ return fetch("/api/check").then(function(r){return r.json()}).then(function(a){LIVE=a.results||{};var n=Object.keys(LIVE).filter(function(k){return LIVE[k].status==="changed"}).length;
+  document.getElementById("meta").textContent="ตรวจประกาศสดล่าสุด "+new Date(a.checkedAt).toLocaleString("th-TH")+(n?" · ⚠ มี "+n+" ประกาศที่เปลี่ยน":" · ไม่พบการเปลี่ยนแปลง");R()}).catch(function(){document.getElementById("meta").textContent="แสดงข้อมูลที่บันทึกไว้ (ยังไม่ได้เชื่อม /api/check — ใช้ได้เมื่อ deploy บน Vercel)"})});
+</script></body></html>

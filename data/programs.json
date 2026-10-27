@@ -1,0 +1,45 @@
+{
+"updated": "2026-10-27",
+"student": { "gpax": 3.90, "math": 4.00, "sci": 3.79, "mathCr": 14, "sciCr": 33.5 },
+"sources": [
+ { "id": "chula", "name": "จุฬาฯ – ประกาศรับสมัคร (admission.chula.ac.th)", "url": "https://admission.chula.ac.th/", "expect": ["12 พฤศจิกายน 2569", "1 ธันวาคม 2569"] },
+ { "id": "kmutt-scholar", "name": "มจธ. ราชบุรี – ทุนเพชรพระจอมเกล้า 2570", "url": "https://ratchaburi.kmutt.ac.th/press-release/tcas70-scholar/", "expect": ["26 ตุลาคม 2569", "18 ธันวาคม 2569"] },
+ { "id": "kmutt-active", "name": "มจธ. – Active Recruitment (join.kmutt.ac.th)", "url": "https://join.kmutt.ac.th/projects/b82694a9-f0a6-4a3a-b18f-0de4f1e8bbfc", "expect": ["11 มกราคม 2570"] },
+ { "id": "mu-ict", "name": "มหิดล ICT – รอบ 1 ปี 2570 (ict.mahidol.ac.th)", "url": "https://www.ict.mahidol.ac.th/en/?p=5489", "expect": ["10 Sep 2026"] },
+ { "id": "mu-cpe", "name": "มหิดล วิศวกรรมคอมพิวเตอร์ – เกณฑ์รอบ 1/1 (PDF)", "url": "https://tcas.mahidol.ac.th/qualified/Portfolio1-1/EG_ComputerEngineering.pdf", "expect": [] },
+ { "id": "cedt", "name": "CEDT จุฬาฯ – ประกาศ TCAS1 (cp.eng.chula.ac.th)", "url": "https://www.cp.eng.chula.ac.th/cedt-tcas1", "expect": [] },
+ { "id": "kmitl", "name": "สจล. – ประกาศรับสมัคร (reg.kmitl.ac.th)", "url": "https://www.reg.kmitl.ac.th/TCAS_old/", "expect": [] },
+ { "id": "mytcas", "name": "ทปอ. – ปฏิทินกลาง TCAS70 (mytcas.com)", "url": "https://www.mytcas.com/", "expect": ["10 มี.ค. 70", "12 มี.ค. 70"] }
+],
+"programs": [
+ { "id": "cedt", "uni": "จุฬาลงกรณ์มหาวิทยาลัย", "major": "วิศวกรรมคอมพิวเตอร์และเทคโนโลยีดิจิทัล (CEDT) คณะวิศวกรรมศาสตร์", "project": "รอบ 1 Portfolio (หลักสูตร Sandbox)", "src": "chula", "close": "2026-11-12", "closeNote": "กลุ่ม 1 ปิด 12 พ.ย. · กลุ่ม 2 เปิด 26 พ.ย.–1 ธ.ค. (ต้องเช็กว่า CEDT อยู่กลุ่มไหน)", "verified": true,
+   "selection": "แฟ้มผลงาน ‘วิชาการ/วิศวกรรมคอมพิวเตอร์’ ≥70/100 → สัมภาษณ์ 4 หัวข้อ รวม ≥70/100", "selNote": "สรุปจากข้อมูล ทปอ. — ยังไม่ได้อ่านจากประกาศต้นฉบับ ต้องดาวน์โหลดประกาศที่หน้า CEDT",
+   "links": [ { "t": "หน้า TCAS1 CEDT (ดาวน์โหลดประกาศ)", "u": "https://www.cp.eng.chula.ac.th/cedt-tcas1" }, { "t": "ระบบสมัคร จุฬาฯ", "u": "https://admission.chula.ac.th/admission_c1.php" } ] },
+ { "id": "kmutt-me-petch", "uni": "มจธ.", "major": "วิศวกรรมเครื่องกล", "project": "ทุนเพชรพระจอมเกล้า (ด้านความสามารถพิเศษ)", "src": "kmutt-scholar", "close": "2026-10-26", "closeNote": "ปิดรับ 26 ต.ค. 69 · ประกาศผู้มีสิทธิ์สอบ 18 ธ.ค. 69", "verified": true,
+   "docs": ["รูปถ่ายสุภาพ (ไม่เกิน 6 เดือน)", "ระเบียนผลการเรียน 4–6 ภาคเรียน (PDF)", "แฟ้มสะสมผลงาน PDF 1 ไฟล์ ≤10 MB (TCASFolio หรือทำเอง: หน้าปกระบุด้านของทุน, ประวัติส่วนตัว, ประวัติการศึกษา, ผลงาน/รางวัล)", "ตั้งชื่อไฟล์ภาษาอังกฤษ ≤60 ตัวอักษร ห้ามอักขระพิเศษ"],
+   "links": [ { "t": "ประกาศ มจธ. ราชบุรี", "u": "https://ratchaburi.kmutt.ac.th/press-release/tcas70-scholar/" } ] },
+ { "id": "kmutt-me-active", "uni": "มจธ.", "major": "วิศวกรรมเครื่องกล", "project": "Active Recruitment", "src": "kmutt-active", "close": "2027-01-11", "closeNote": "สมัคร 17 ส.ค. 69–11 ม.ค. 70 · ประกาศผู้มีสิทธิ์สอบ 15–31 ม.ค. 70 · ค่าสมัคร/สอบ 350 บาท", "verified": true,
+   "crit": { "gpax": 3.0, "math": 3.0, "sci": 3.0, "mathCr": 8, "sciCr": 20 }, "critNote": "ตัวเลขเกณฑ์มาจากข้อมูล ทปอ. — ต้องตรวจกับประกาศที่ join.kmutt.ac.th (มีเกณฑ์เพิ่มเติม)",
+   "links": [ { "t": "join.kmutt.ac.th", "u": "https://join.kmutt.ac.th/" } ] },
+ { "id": "kmutt-me-good", "uni": "มจธ.", "major": "วิศวกรรมเครื่องกล", "project": "คัดเลือกตรง ประเภทเรียนดี", "src": "kmutt-active", "close": null, "closeNote": "ไม่พบวันปิดรับจากประกาศ — ตรวจที่ join.kmutt.ac.th", "verified": false,
+   "crit": { "gpax": 3.0, "math": 3.0, "sci": 3.0, "mathCr": 8, "sciCr": 20 }, "critNote": "สรุปจาก ทปอ.: สัมภาษณ์ 80% + แฟ้ม 20% (ยังไม่ยืนยันกับต้นฉบับ)",
+   "links": [ { "t": "join.kmutt.ac.th", "u": "https://join.kmutt.ac.th/" } ] },
+ { "id": "kmutt-cpe", "uni": "มจธ.", "major": "วิศวกรรมคอมพิวเตอร์ (ไทย ปกติ)", "project": "Active Recruitment / เรียนดี", "src": "kmutt-active", "close": "2027-01-11", "closeNote": "Active Recruitment ปิด 11 ม.ค. 70 · โครงการเรียนดีไม่พบวันปิด", "verified": true,
+   "crit": { "gpax": 3.0, "math": 3.0, "sci": 3.0, "mathCr": 8, "sciCr": 20 }, "critNote": "ตัวเลขเกณฑ์มาจากข้อมูล ทปอ. — ตรวจกับประกาศก่อนสมัคร",
+   "links": [ { "t": "join.kmutt.ac.th", "u": "https://join.kmutt.ac.th/" } ] },
+ { "id": "mu-dst", "uni": "มหาวิทยาลัยมหิดล", "major": "ICT – วิทยาการและเทคโนโลยีดิจิทัล (DST)", "project": "MU Portfolio 1/1", "src": "mu-ict", "close": "2026-09-10", "closeNote": "ปิดรับ 10 ก.ย. 69 (ช่วง 1/2 ของ DST ยังไม่ประกาศ)", "verified": true,
+   "docs": ["TCASFolio/Portfolio ≤10 หน้า", "เรียงความ 1 หน้า A4", "วิดีโอแนะนำตัว 3 นาที", "ระเบียนผลการเรียน 4 ภาคเรียน", "สัมภาษณ์ภาษาไทย"],
+   "links": [ { "t": "ประกาศ ICT มหิดล", "u": "https://www.ict.mahidol.ac.th/en/?p=5489" } ] },
+ { "id": "mu-cpe", "uni": "มหาวิทยาลัยมหิดล", "major": "วิศวกรรมศาสตร์ – วิศวกรรมคอมพิวเตอร์", "project": "MU Portfolio 1/1 (รับ 10 คน, ไม่เปิดรอบ 1/2)", "src": "mu-cpe", "close": null, "closeNote": "ไม่พบวันปิดในไฟล์ที่อ่านได้ — เปิดรอบ 1/1 เท่านั้น จึงน่าจะปิดแล้ว (ตรวจ)", "verified": false,
+   "links": [ { "t": "ประกาศเกณฑ์ (PDF)", "u": "https://tcas.mahidol.ac.th/qualified/Portfolio1-1/EG_ComputerEngineering.pdf" } ] },
+ { "id": "kmitl", "uni": "สจล.", "major": "วิศวกรรมคอมพิวเตอร์ / IT / AI-หุ่นยนต์", "project": "รอบ 1 Portfolio ปี 2570", "src": "kmitl", "close": null, "closeNote": "ไม่พบประกาศปี 2570 ของคณะวิศวกรรมศาสตร์/IT — สจล. ทยอยเปิดตั้งแต่ 17 ส.ค. 69 ตรวจที่ admission.reg.kmitl.ac.th", "verified": false,
+   "links": [ { "t": "ระบบสมัคร สจล.", "u": "https://admission.reg.kmitl.ac.th/" }, { "t": "ประกาศทั้งหมด (reg.kmitl)", "u": "https://www.reg.kmitl.ac.th/TCAS_old/" } ] },
+ { "id": "ku", "uni": "มหาวิทยาลัยเกษตรศาสตร์", "major": "วิศวกรรมเครื่องกล (โครงการช้างเผือก)", "project": "รอบ 1 Portfolio ปี 2570", "src": null, "close": null, "closeNote": "ยังไม่พบประกาศปี 2570 จากเว็บ มก. — ตรวจประกาศของ มก. โดยตรง", "verified": false, "links": [] }
+],
+"events": [
+ { "d": "2026-11-26", "t": "จุฬาฯ รอบ 1 กลุ่ม 2 เปิดรับสมัคร (ถึง 1 ธ.ค.)", "src": "chula" },
+ { "d": "2026-12-18", "t": "มจธ. ประกาศผู้มีสิทธิ์สอบ (ทุนเพชรฯ)", "src": "kmutt-scholar" },
+ { "d": "2027-03-10", "t": "ทปอ. ประกาศผลรอบ 1 + ยืนยันสิทธิ์ 10–11 มี.ค.", "src": "mytcas" },
+ { "d": "2027-03-12", "t": "สละสิทธิ์ในระบบ myTCAS (ครั้งที่ 1)", "src": "mytcas" }
+]
+}
